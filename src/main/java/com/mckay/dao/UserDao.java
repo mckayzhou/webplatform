@@ -9,14 +9,13 @@
  * @date: 2016年12月18日 下午11:23:34 
  * @version: V1.0   
  */
-package com.mckay.dao;
+package com.dao;
 
 import java.io.Serializable;
 
+import com.entity.User;
+import com.util.HibernateBaseDao;
 import org.springframework.stereotype.Repository;
-
-import com.mckay.entity.User;
-import com.mckay.util.HibernateBaseDao;
 
 /** 
  * @ClassName: loginDao 

@@ -1,15 +1,17 @@
-package com.mckay.service;
+package com.service;
 
 
+import com.dao.UserDao;
+import com.entity.User;
+import com.util.MD5;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mckay.dao.UserDao;
-import com.mckay.entity.User;
-import com.mckay.util.MD5;
 
-@Service
+
+@Service("userService")
+
 public class UserService {
 
 	@Autowired
@@ -24,7 +26,7 @@ public class UserService {
 	
 	public boolean addUser(User userInfo){
 		try {
-			String passwd=MD5.getMD5(userInfo.getPassword());
+			String passwd= MD5.getMD5(userInfo.getPassword());
 			userInfo.setPassword(passwd);
 			userDao.save(userInfo);
 			return true;

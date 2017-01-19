@@ -3,19 +3,25 @@
  * 
  * @Title: BigFileMangeService.java 
  * @Prject: webplatform
- * @Package: com.mckay.service 
+ * @Package: com.service
  * @Description:
  * @author:
  * @date: 2017年1月13日 下午10:26:03 
  * @version: V1.0   
  */
-package com.mckay.service;
+package com.service;
 
-/** 
+import org.springframework.stereotype.Service;
+
+
+
+/**
  * @ClassName: BigFileMangeService 
  * @Description: TODO
  * @author: 周林波
  * @date: 2017年1月13日 下午10:26:03  
  */
+@Service
+
 public class BigFileMangeService {
 }

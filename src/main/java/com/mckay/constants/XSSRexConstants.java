@@ -9,7 +9,7 @@
  * @date: 2016年12月31日 下午4:19:59 
  * @version: V1.0   
  */
-package com.mckay.constants;
+package com.constants;
 
 /** 
  * @ClassName: XSSRexConstants 

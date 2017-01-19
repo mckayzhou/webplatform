@@ -9,7 +9,7 @@
  * @date: 2016年12月30日 下午10:27:46 
  * @version: V1.0   
  */
-package com.mckay.util;
+package com.util;
 
 import java.util.Collection;
 import java.util.Map;
@@ -343,7 +343,7 @@ public class RegexUtil {
     /**
      * 是否包含中英文特殊字符，除英文"-_"字符外
      * 
-     * @param str
+     * @param text
      * @return
      */
     public static boolean isContainsSpecialChar(String text) {

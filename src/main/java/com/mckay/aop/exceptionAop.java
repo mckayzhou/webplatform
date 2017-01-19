@@ -9,7 +9,7 @@
  * @date: 2016年12月19日 下午10:08:54 
  * @version: V1.0   
  */
-package com.mckay.aop;
+package com.aop;
 
 /** 
  * @ClassName: exceptionAop 

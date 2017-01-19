@@ -9,8 +9,11 @@
  * @date: 2017年1月2日 下午5:27:35 
  * @version: V1.0   
  */
-package com.mckay.controller;
+package com.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -18,12 +21,17 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
-import com.mckay.entity.User;
+import com.entity.User;
+import com.util.FileUploadUtil;
+import org.apache.log4j.Logger;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /** 
@@ -36,6 +44,7 @@ public abstract class BaseController {
 	
 
 
+	private Logger log=Logger.getLogger(BaseController.class);
 	/**
 	 * 获取当前登录用户信息
 	 * 
@@ -197,4 +206,52 @@ public abstract class BaseController {
 		return true;
 	}
 
+	public void downloadFile(HttpServletRequest request,  HttpServletResponse response,
+							 String fileName, String filePath){
+		//下载文件
+		File  file =new File(filePath+fileName);
+		try{
+				//如果文件存在
+			if (file.exists()){
+				response.reset();
+				response.setContentType("application/x-msdownload");
+				String fileDownName=new String(fileName.getBytes("gbk"),"iso8859-1");
+				response.addHeader("Content-Disposition","attachment;filename=\""+fileDownName+"\"");
+				int fileLength=(int) file.length();
+				response.setContentLength(fileLength);
+
+				if (fileLength!=0){
+					//创建输入流
+					InputStream inStream=new FileInputStream(file);
+					byte[] buf =new byte[4096];
+					//创建输出流
+					ServletOutputStream servletOS=response.getOutputStream();
+					int readLength;
+					while (((readLength=inStream.read(buf))!=-1)){
+							servletOS.write(buf,0,readLength);
+					}
+					servletOS.flush();
+					inStream.close();
+					servletOS.close();
+				}
+			}
+		}catch (Exception e){
+				log.error("下载文件出错："+e);
+		}
+	}
+	public boolean uploadFile(HttpServletRequest request, HttpServletResponse response,
+							  MultipartFile file,String fileNm,String filePath){
+		if (!file.isEmpty()){
+			FileUploadUtil fileUploadUtil=new FileUploadUtil();
+			String fileType=fileUploadUtil.getFileType(file);
+			try{
+				if (fileUploadUtil.uploadFile(file,filePath,fileNm))
+					log.info("上传文件成功:"+filePath+fileNm);
+			}catch (Exception e){
+					log.error("上传文件失败"+filePath+fileNm+ e);
+					return false;
+			}
+		}
+		return  true;
+	}
 }

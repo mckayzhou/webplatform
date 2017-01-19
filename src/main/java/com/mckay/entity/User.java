@@ -9,7 +9,7 @@
  * @date: 2016年12月30日 下午10:45:01 
  * @version: V1.0   
  */
-package com.mckay.entity;
+package com.entity;
 
 import java.security.Timestamp;
 
@@ -25,7 +25,7 @@ import javax.persistence.Table;
  * @date: 2016年12月30日 下午10:45:01  
  */
 @Entity
-@Table(name="tbl_user")
+@Table(name="tbl_user_inf")
 public class User {
 	
 	@Id

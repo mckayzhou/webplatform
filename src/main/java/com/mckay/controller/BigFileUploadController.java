@@ -9,7 +9,7 @@
  * @date: 2017年1月13日 下午9:35:03 
  * @version: V1.0   
  */
-package com.mckay.controller;
+package com.controller;
 
 /** 
  * @ClassName: BigFileUploadController 

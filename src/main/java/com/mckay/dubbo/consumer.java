@@ -9,7 +9,7 @@
  * @date: 2017年1月11日 下午9:54:26 
  * @version: V1.0   
  */
-package com.mckay.dubbo;
+package com.dubbo;
 
 /** 
  * @ClassName: consumer 

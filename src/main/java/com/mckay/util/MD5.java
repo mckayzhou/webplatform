@@ -9,7 +9,7 @@
  * @date: 2017年1月1日 下午9:01:34 
  * @version: V1.0   
  */
-package com.mckay.util;
+package com.util;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

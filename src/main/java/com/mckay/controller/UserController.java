@@ -9,17 +9,19 @@
  * @date: 2016年12月19日 下午10:07:09 
  * @version: V1.0   
  */
-package com.mckay.controller;
+package com.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.mckay.entity.User;
-import com.mckay.service.UserService;
+import com.entity.User;
+import com.service.UserService;
 
 /** 
  * @ClassName: loginController 
@@ -28,12 +30,13 @@ import com.mckay.service.UserService;
  * @date: 2016年12月19日 下午10:07:09  
  */
 @Controller
-@RequestMapping(value="user")
+@RequestMapping(value="user/")
 public class UserController extends BaseController{
-	
+
 	@Autowired
 	private UserService userService; 
-	
+
+
 	@RequestMapping(value="login.do")
 	public boolean login(HttpServletRequest request,HttpServletResponse response,
 			User userInfo) {

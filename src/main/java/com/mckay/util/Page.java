@@ -9,7 +9,7 @@
  * @date: 2016年12月20日 下午9:38:08 
  * @version: V1.0   
  */
-package com.mckay.util;
+package com.util;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,7 +9,7 @@
  * @date: 2016年12月21日 下午2:10:26 
  * @version: V1.0   
  */
-package com.mckay.util;
+package com.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

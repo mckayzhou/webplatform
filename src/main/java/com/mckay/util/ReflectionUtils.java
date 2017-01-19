@@ -9,7 +9,7 @@
  * @date: 2016年12月21日 下午10:06:20 
  * @version: V1.0   
  */
-package com.mckay.util;
+package com.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

@@ -9,7 +9,7 @@
  * @date: 2017年1月11日 下午9:52:45 
  * @version: V1.0   
  */
-package com.mckay.cache;
+package com.cache;
 
 /** 
  * @ClassName: itemCache 

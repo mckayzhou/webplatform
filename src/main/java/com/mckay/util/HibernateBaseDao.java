@@ -9,7 +9,7 @@
  * @date: 2016年12月30日 下午8:54:47 
  * @version: V1.0   
  */
-package com.mckay.util;
+package com.util;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -31,10 +31,10 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.util.Assert;
 
 
@@ -181,7 +181,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable>  {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<T> find(final String hql, final Object... values) {
-		return createQuery(hql, values).getResultList();
+		return createQuery(hql, values).list();
 	}
 
 	/**
@@ -192,7 +192,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable>  {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Object[]> findArray(final String hql, final Object... values) {
-		return createQuery(hql, values).getResultList();
+		return createQuery(hql, values).list();
 	}
 
 	/**
@@ -205,7 +205,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable>  {
 	public List<T> findPage(final String hql, int limit, int size,
 			final Object... values) {
 		return createQuery(hql, values).setFirstResult(limit)
-				.setMaxResults(size).getResultList();
+				.setMaxResults(size).list();
 	}
 
 	/**
@@ -216,14 +216,14 @@ public abstract class HibernateBaseDao<T, PK extends Serializable>  {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Object> findList(final String hql, final Object... values) {
-		return createQuery(hql, values).getResultList();
+		return createQuery(hql, values).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<T> findIn(final String hql, final String placeHolder,
 			final List<?> values) {
 
-		return createQueryIn(hql, placeHolder, values).getResultList();
+		return createQueryIn(hql, placeHolder, values).list();
 	}
 
 	/**
@@ -231,7 +231,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable>  {
 	 */
 	@SuppressWarnings("unchecked")
 	public T findUnique(final String hql, final Object... values) {
-		return (T) createQuery(hql, values).getSingleResult(); 
+		return (T) createQuery(hql, values).uniqueResult();
 	}
 
 	/**
@@ -336,7 +336,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable>  {
 	@SuppressWarnings("unchecked")
 	public List<T> findByLimit(final String hql, int limit,
 			final Object... values) {
-		return createQuery(hql, values).setFirstResult(limit).getResultList();
+		return createQuery(hql, values).setFirstResult(limit).list();
 	}
 
 
@@ -351,7 +351,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable>  {
 	 *            原生sql语句<BR>
 	 * @param param
 	 *            参数列表<BR>
-	 * @param dsName
+	 * @paramdsName
 	 *            多ds情况下，指定的ds名称<BR>
 	 * <BR>
 	 * @return 记录结果集，返回字段对应Map集合<BR>
