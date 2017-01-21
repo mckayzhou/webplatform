@@ -1,4 +1,4 @@
-package com.util;
+package com.mckay.util;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,8 +12,8 @@ public class FileUploadUtil {
 
     private static final Logger logger = Logger.getLogger(FileUploadUtil.class);
     // 限制的文件类型
-    private static final String[] fileType = { "jpg", "png", "bmp", "gif",
-            "jpeg", "JPG", "PNG", "BMP", "GIF", "JPEG","xls","doc","txt"   };
+    private static final String[] fileType = {"jpg", "png", "bmp", "gif",
+            "jpeg", "JPG", "PNG", "BMP", "GIF", "JPEG", "xls", "doc", "txt"};
 
     // 限制的文件大小,默认10M,-1就是无限制大小
     private long FILESIZE = 10 * 1024 * 1024;
@@ -32,9 +32,7 @@ public class FileUploadUtil {
     /**
      * 检查文件类型
      *
-     *
-     * @param file
-     *            传入的文件
+     * @param file 传入的文件
      * @return 是否为指定类型(true)
      */
     public boolean validateFileType(MultipartFile file) {
@@ -73,10 +71,8 @@ public class FileUploadUtil {
      * 上传文件
      *
      * @param file
-     * @param filePath
-     *            文件保存路径
-     * @param targetFileName
-     *            文件保存名字(不含后缀名)
+     * @param filePath       文件保存路径
+     * @param targetFileName 文件保存名字(不含后缀名)
      * @return
      * @throws Exception
      */

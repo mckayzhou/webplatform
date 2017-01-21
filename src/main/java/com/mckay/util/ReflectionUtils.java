@@ -1,15 +1,15 @@
-/**   
+/**
  * Copyright © 2016 本代码版权归周林波所有，严禁未经许可使用。
- * 
- * @Title: ReflectionUtils.java 
+ *
+ * @Title: ReflectionUtils.java
  * @Prject: springweb
- * @Package: com.mckay.util 
+ * @Package: com.mckay.util
  * @Description:
  * @author:
- * @date: 2016年12月21日 下午10:06:20 
- * @version: V1.0   
+ * @date: 2016年12月21日 下午10:06:20
+ * @version: V1.0
  */
-package com.util;
+package com.mckay.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -25,9 +25,8 @@ import org.apache.log4j.Logger;
 import org.springframework.util.Assert;
 
 
-
-/** 
- * @ClassName: ReflectionUtils 
+/**
+ * @ClassName: ReflectionUtils
  * @Description: 反射的工具类  提供访问私有变量, 获取范型类型, 提取集合中元素属性等工具函数。
  * @author: 周林波
  * @date: 2016年12月21日 下午10:06:20  
@@ -112,7 +111,7 @@ public class ReflectionUtils {
 
     /**
      * 通过反射,获得定义Class时声明的父类的范型参数的类型. 如public UserDao extends HibernateDao<User>
-     * 
+     *
      * @param clazz
      *            The class to introspect
      * @return the first generic declaration, or Object.class if cannot be
@@ -126,7 +125,7 @@ public class ReflectionUtils {
     /**
      * 通过反射,获得定义Class时声明的父类的范型参数的类型. 如public UserDao extends
      * HibernateDao<User,Long>
-     * 
+     *
      * @param clazz
      *            clazz The class to introspect
      * @param index
@@ -161,7 +160,7 @@ public class ReflectionUtils {
 
     /**
      * 提取集合中的对象的属性,组合成List.
-     * 
+     *
      * @param collection
      *            来源集合.
      * @param propertyName
@@ -181,7 +180,7 @@ public class ReflectionUtils {
 
     /**
      * 提取集合中的对象的属性,组合成由分割符分隔的字符串.
-     * 
+     *
      * @param collection
      *            来源集合.
      * @param propertyName
@@ -190,7 +189,7 @@ public class ReflectionUtils {
      *            分隔符.
      */
     public static String fetchElementPropertyToString(final Collection<?> collection, final String propertyName,
-            final String separator) throws Exception {
+                                                      final String separator) throws Exception {
         List<?> list = fetchElementPropertyToList(collection, propertyName);
         return StringUtils.join(list, separator);
     }

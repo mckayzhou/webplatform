@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xml>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
            http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
            http://www.springframework.org/schema/context
@@ -20,74 +19,74 @@
     2、操作数据库（jbdc模板、与ORM框架集成sessionFactory）
      -->
 
-	 <!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName">
-			<value>java:/gzapDS</value>
-		</property>
-	</bean> -->
+    <!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+       <property name="jndiName">
+           <value>java:/gzapDS</value>
+       </property>
+   </bean> -->
 
-	<!-- 配置数据源 c3p0 -->
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close">
-		<property name="driverClass" value="${jdbc.driver}" />
-		<property name="jdbcUrl" value="${jdbc.url}" />
-		<property name="user" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
+    <!-- 配置数据源 c3p0 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
 
-		<!-- 请求超时时间 -->
-		<property name="checkoutTimeout" value="30000" />
-		<!-- 每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 -->
-		<property name="idleConnectionTestPeriod" value="30" />
-		<!-- 连接数据库连接池最大空闲时间 -->
-		<property name="maxIdleTime" value="30" />
-		<!-- 连接池初始化连接数 -->
-		<property name="initialPoolSize" value="5" />
-		<property name="minPoolSize" value="5" />
-		<property name="maxPoolSize" value="20" />
-		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 -->
-		<property name="acquireIncrement" value="5" />
-	</bean>
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<value>classpath:config.properties</value>
-		</property>
-	</bean>
+        <!-- 请求超时时间 -->
+        <property name="checkoutTimeout" value="30000"/>
+        <!-- 每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 -->
+        <property name="idleConnectionTestPeriod" value="30"/>
+        <!-- 连接数据库连接池最大空闲时间 -->
+        <property name="maxIdleTime" value="30"/>
+        <!-- 连接池初始化连接数 -->
+        <property name="initialPoolSize" value="5"/>
+        <property name="minPoolSize" value="5"/>
+        <property name="maxPoolSize" value="20"/>
+        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 -->
+        <property name="acquireIncrement" value="5"/>
+    </bean>
+    <bean
+            class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <value>classpath:config.properties</value>
+        </property>
+    </bean>
 
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate5.annotation.AnnotationSessionFactoryBean">
-		<!-- 数据源 -->
-		<property name="dataSource" ref="dataSource" />
-		<!-- 自动扫描实体对象 -->
-		<property name="packagesToScan" value="com.mckay.*" />
-		<!-- hibernate相关属性配置 -->
-		<property name="hibernateProperties">
-			<props>
-				<!-- 设置数据库类型对应的语言 -->
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-				<prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider
-				</prop>
-				<prop key="hibernate.connection.characterEncoding">utf-8</prop>
-				<prop key="hibernate.connection.useUnicode">true</prop>
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="javax.persistence.validation.mode">none</prop>
-				
-			</props>
-			
-		</property>
-	</bean>
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <!-- 数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 自动扫描实体对象 -->
+        <property name="packagesToScan" value="com.*"/>
+        <!-- hibernate相关属性配置 -->
+        <property name="hibernateProperties">
+            <props>
+                <!-- 设置数据库类型对应的语言 -->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider
+                </prop>
+                <prop key="hibernate.connection.characterEncoding">utf-8</prop>
+                <prop key="hibernate.connection.useUnicode">true</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="javax.persistence.validation.mode">none</prop>
 
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
+            </props>
 
-	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
+        </property>
+    </bean>
 
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
 </beans>

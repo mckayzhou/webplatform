@@ -1,15 +1,15 @@
-/**   
+/**
  * Copyright © 2016 本代码版权归周林波所有，严禁未经许可使用。
- * 
- * @Title: UserInfo.java 
+ *
+ * @Title: UserInfo.java
  * @Prject: springweb
- * @Package: com.mckay.entity 
+ * @Package: com.mckay.entity
  * @Description:
  * @author:
- * @date: 2016年12月30日 下午10:45:01 
- * @version: V1.0   
+ * @date: 2016年12月30日 下午10:45:01
+ * @version: V1.0
  */
-package com.entity;
+package com.mckay.entity;
 
 import java.security.Timestamp;
 
@@ -18,82 +18,82 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/** 
- * @ClassName: UserInfo 
+/**
+ * @ClassName: UserInfo
  * @Description: TODO
  * @author: 周林波
  * @date: 2016年12月30日 下午10:45:01  
  */
 @Entity
-@Table(name="tbl_user_inf")
+@Table(name = "tbl_user_inf")
 public class User {
-	
-	@Id
-	@Column(name="id")
-	private int id;
-	
-	@Column(name="name")
-	private String name;
-	
-	@Column(name="pass_word")
-	private String password;
-	
-	@Column(name="status")
-	private String status;
-	
-	@Column(name="rec_crt_ts")
-	private Timestamp recCrtTs;
-	
-	@Column(name="rec_upd_ts")
-	private Timestamp recUpdTs ;
 
-	public int getId() {
-		return id;
-	}
+    @Id
+    @Column(name = "id")
+    private int id;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @Column(name = "name")
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    @Column(name = "pass_word")
+    private String password;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Column(name = "status")
+    private String status;
 
-	public String getPassword() {
-		return password;
-	}
+    @Column(name = "rec_crt_ts")
+    private Timestamp recCrtTs;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    @Column(name = "rec_upd_ts")
+    private Timestamp recUpdTs;
 
-	public String getStatus() {
-		return status;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public Timestamp getRecCrtTs() {
-		return recCrtTs;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setRecCrtTs(Timestamp recCrtTs) {
-		this.recCrtTs = recCrtTs;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Timestamp getRecUpdTs() {
-		return recUpdTs;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setRecUpdTs(Timestamp recUpdTs) {
-		this.recUpdTs = recUpdTs;
-	}
-	
-	
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Timestamp getRecCrtTs() {
+        return recCrtTs;
+    }
+
+    public void setRecCrtTs(Timestamp recCrtTs) {
+        this.recCrtTs = recCrtTs;
+    }
+
+    public Timestamp getRecUpdTs() {
+        return recUpdTs;
+    }
+
+    public void setRecUpdTs(Timestamp recUpdTs) {
+        this.recUpdTs = recUpdTs;
+    }
+
+
 }

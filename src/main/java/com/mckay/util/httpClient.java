@@ -1,15 +1,15 @@
-/**   
+/**
  * Copyright © 2016 本代码版权归周林波所有，严禁未经许可使用。
- * 
- * @Title: httpClient.java 
+ *
+ * @Title: httpClient.java
  * @Prject: springweb
- * @Package: com.mckay.util 
+ * @Package: com.mckay.util
  * @Description:
  * @author:
- * @date: 2016年12月19日 下午10:28:14 
- * @version: V1.0   
+ * @date: 2016年12月19日 下午10:28:14
+ * @version: V1.0
  */
-package com.util;
+package com.mckay.util;
 
 import org.apache.log4j.Logger;
 
@@ -19,31 +19,34 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName: httpClient 
- * @Description:  发起HTTP请求
+ * @ClassName: httpClient
+ * @Description: 发起HTTP请求
  * @author: 周林波
- * @date: 2016年12月19日 下午10:28:14  
+ * @date: 2016年12月19日 下午10:28:14
  */
 public class httpClient {
 
+    /**
+     *@Description:发送GET请求
+     *@Param:
+     *@Return:
+     */
+    public static BufferedReader sendGet(String url, HashMap<String, String> param) {
 
-    public static BufferedReader sendGet(String url, HashMap<String ,String > param){
-
-        Logger log=Logger.getLogger(httpClient.class);
-        String result="";
-        BufferedReader in=null;
-        try{
-            String urlPara="";
-            URL realURL=new URL(urlPara);
+        Logger log = Logger.getLogger(httpClient.class);
+        String result = "";
+        BufferedReader in = null;
+        try {
+            String urlPara = "";
+            URL realURL = new URL(urlPara);
             //打开和URL之间的连接
-            URLConnection connection=realURL.openConnection();
+            URLConnection connection = realURL.openConnection();
             //设置通用的请求属性
-            connection.setRequestProperty("accept","*/*");
+            connection.setRequestProperty("accept", "*/*");
             connection.setRequestProperty("connection", "Keep-Alive");
             connection.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
 
@@ -51,19 +54,19 @@ public class httpClient {
             connection.connect();
 
             //获取所有响应头字段
-            Map<String ,List<String >> map=connection.getHeaderFields();
+            Map<String, List<String>> map = connection.getHeaderFields();
 
             //定义 BufferedReader输入流来读取URL的响应
-            in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            return  in;
-        }catch (Exception e){
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            return in;
+        } catch (Exception e) {
             log.error(e);
-            return  null;
-        }finally {
-            if (in!=null){
-                try{
+            return null;
+        } finally {
+            if (in != null) {
+                try {
                     in.close();
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -124,6 +127,7 @@ public class httpClient {
                 ex.printStackTrace();
             }
         }
+
         return result;
     }
 }

@@ -1,15 +1,15 @@
-/**   
+/**
  * Copyright © 2016 本代码版权归周林波所有，严禁未经许可使用。
- * 
- * @Title: logAop.java 
+ *
+ * @Title: logAop.java
  * @Prject: springweb
- * @Package: com.mckay.aop 
+ * @Package: com.mckay.aop
  * @Description: TODO
- * @author: zhoulinbo   
- * @date: 2016年12月19日 下午10:05:34 
- * @version: V1.0   
+ * @author: zhoulinbo
+ * @date: 2016年12月19日 下午10:05:34
+ * @version: V1.0
  */
-package com.aop;
+package com.mckay.aop;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -25,11 +25,11 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 
-/** 
- * @ClassName: logAop 
+/**
+ * @ClassName: logAop
  * @Description: 日志处理类
  * @author: 周林波
- * @date: 2016年12月19日 下午10:05:34  
+ * @date: 2016年12月19日 下午10:05:34
  */
 //@Aspect
 //@Component
@@ -84,5 +84,5 @@ public class logAop {
 //		log.error("<<<<<<<<<<<<<<异常信息是："+e.getMessage()+">>>>>>>>>>>>>>>>>>");
 //
 //	}
-	
+
 }
