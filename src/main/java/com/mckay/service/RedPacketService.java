@@ -7,10 +7,21 @@
  */
 package com.mckay.service;
 
+import java.util.Random;
+
 /**
  *@Description :抢红包服务类
  *@Author: 周林波
  *@Date :Created in 2017/1/21  18:04
  */
 public class RedPacketService {
+
+    private static  int total=1000;
+
+    public  synchronized int getRedPacket(){
+        Random random=new Random();
+        int count=random.nextInt();
+        total=total-count;
+        return  count;
+    }
 }
