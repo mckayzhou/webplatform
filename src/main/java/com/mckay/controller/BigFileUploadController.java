@@ -17,6 +17,6 @@ package com.mckay.controller;
  * @author: 周林波
  * @date: 2017年1月13日 下午9:35:03  
  */
-public class BigFileUploadController {
+public class BigFileUploadController extends BaseController {
 
 }

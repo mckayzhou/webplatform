@@ -11,6 +11,16 @@
  */
 package com.mckay.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.mckay.entity.TblUserInfEntity;
+import com.mckay.util.FileUploadUtil;
+import org.apache.log4j.Logger;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -20,19 +30,6 @@ import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.parser.deserializer.AbstractDateDeserializer;
-import com.mckay.entity.User;
-import com.mckay.util.FileUploadUtil;
-import org.apache.log4j.Logger;
-import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -52,10 +49,10 @@ public abstract class BaseController {
      * @param request
      * @return
      */
-    public static User getUserInfo(HttpServletRequest request) {
+    public static TblUserInfEntity getUserInfo(HttpServletRequest request) {
         try {
             HttpSession session = request.getSession();
-            User userInfo = (User) session.getAttribute(session
+            TblUserInfEntity userInfo = (TblUserInfEntity) session.getAttribute(session
                     .getId());
             return userInfo;
         } catch (Exception e) {

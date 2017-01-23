@@ -34,7 +34,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.util.Assert;
 
 
@@ -53,7 +53,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable> {
 
     protected Class<T> entityClass;
 
-    @Resource
+    @Autowired
     private HibernateTemplate hibernateTemplate;
     @Autowired
     private JdbcTemplate jdbcTemplate;

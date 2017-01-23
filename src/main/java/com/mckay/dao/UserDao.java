@@ -11,11 +11,11 @@
  */
 package com.mckay.dao;
 
-import java.io.Serializable;
-
-import com.mckay.entity.User;
+import com.mckay.entity.TblUserInfEntity;
 import com.mckay.util.HibernateBaseDao;
 import org.springframework.stereotype.Repository;
+
+import java.io.Serializable;
 
 /**
  * @ClassName: loginDao
@@ -24,20 +24,20 @@ import org.springframework.stereotype.Repository;
  * @date: 2016年12月18日 下午11:23:34  
  */
 @Repository
-public class UserDao extends HibernateBaseDao<User, Serializable> {
+public class UserDao extends HibernateBaseDao<TblUserInfEntity, Serializable> {
 
-    public boolean login(User user) {
+    public boolean login(TblUserInfEntity user) {
 
 
         return true;
     }
 
-    public boolean addUser(User user) {
+    public boolean addUser(TblUserInfEntity user) {
         saveOrUpdate(user);
         return true;
     }
 
-    public boolean editUser(User user) {
+    public boolean editUser(TblUserInfEntity user) {
 
         return true;
     }

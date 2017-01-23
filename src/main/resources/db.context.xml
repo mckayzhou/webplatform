@@ -28,10 +28,10 @@
     <!-- 配置数据源 c3p0 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close">
-        <property name="driverClass" value="${jdbc.driver}"/>
-        <property name="jdbcUrl" value="${jdbc.url}"/>
-        <property name="user" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/mckay"/>
+        <property name="user" value="root"/>
+        <property name="password" value="zhoulinbo"/>
 
         <!-- 请求超时时间 -->
         <property name="checkoutTimeout" value="30000"/>
@@ -54,11 +54,11 @@
     </bean>
 
     <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <!-- 数据源 -->
         <property name="dataSource" ref="dataSource"/>
         <!-- 自动扫描实体对象 -->
-        <property name="packagesToScan" value="com.*"/>
+        <property name="packagesToScan" value="com.mckay.entity.*"/>
         <!-- hibernate相关属性配置 -->
         <property name="hibernateProperties">
             <props>
@@ -77,11 +77,11 @@
     </bean>
 
     <bean id="transactionManager"
-          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
