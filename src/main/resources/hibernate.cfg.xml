@@ -3,11 +3,39 @@
     "-//Hibernate/Hibernate Configuration DTD//EN"
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
+
   <session-factory>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.password">zhoulinbo</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/mckay</property>
-    <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+    <!-- =============== 数据库连接设置 =================== -->
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/basichibernatepractice?characterEncoding=UTF8</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">123123</property>
+
+    <!-- =============== 配置使用c3p0数据库连接池 =================== -->
+    <property name="connection.pool_size">1</property>
+    <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+    <property name="c3p0.min_size">5</property>
+    <property name="c3p0.max_size">20</property>
+    <property name="c3p0.timeout">120</property>
+    <property name="c3p0.idle_test_period">3000</property>
+
+
+
+    <!-- =============== 数据库方言设置 =================== -->
+    <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+
+    <!--&lt;!&ndash; =============== 二级缓存设置 =================== &ndash;&gt;-->
+    <!--<property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>-->
+
+    <!-- =============== 控制台打印sql语句设置设置 =================== -->
+    <property name="show_sql">true</property>
+
+    <!-- =============== 数据库表结构更新设置 =================== -->
+    <property name="hbm2ddl.auto">update</property>
+
+    <!-- =============== 实体关系列表 =================== -->
+
   </session-factory>
+
 </hibernate-configuration>
