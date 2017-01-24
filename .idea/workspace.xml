@@ -7,10 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="93cabacc-d6ac-48f2-af47-7c7fc717021c" name="Default" comment="增加多线程抢红包实例">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mckay/aop/logAop.java" afterPath="$PROJECT_DIR$/src/main/java/com/mckay/aop/logAop.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mckay/multiThread/BigFileThread.java" afterPath="$PROJECT_DIR$/src/main/java/com/mckay/multiThread/BigFileThread.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1468,7 +1468,7 @@
       <workItem from="1485095027380" duration="261000" />
       <workItem from="1485095901379" duration="3658000" />
       <workItem from="1485177820324" duration="6576000" />
-      <workItem from="1485227748174" duration="1700000" />
+      <workItem from="1485227748174" duration="2041000" />
     </task>
     <task id="LOCAL-00001" summary="pom修改&#10;">
       <created>1484478437718</created>
@@ -1512,11 +1512,18 @@
       <option name="project" value="LOCAL" />
       <updated>1485183619461</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="配置文件修改&#10;">
+      <created>1485229755879</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1485229755879</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="81482000" />
+    <option name="totallyTimeSpent" value="81823000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1529,7 +1536,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1611,7 +1618,8 @@
     <MESSAGE value="1.20修改&#10;" />
     <MESSAGE value="1.23修改&#10;主要是增加数据库锁操作" />
     <MESSAGE value="增加多线程抢红包实例" />
-    <option name="LAST_COMMIT_MESSAGE" value="增加多线程抢红包实例" />
+    <MESSAGE value="配置文件修改&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="配置文件修改&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

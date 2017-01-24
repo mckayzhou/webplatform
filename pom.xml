@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.hibernate>3.6.9.Final</version.hibernate>
+        <version.hibernate>5.0.2.Final</version.hibernate>
         <version.mysql.jdbc>5.1.21</version.mysql.jdbc>
         <version.springframework.all>4.3.4.RELEASE</version.springframework.all>
         <version.servletapi>3.1.0</version.servletapi>
@@ -81,12 +81,23 @@
             <artifactId>hibernate-core</artifactId>
             <version>${version.hibernate}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+
+
         <!-- 数据库连接池 -->
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-            <version>${version.hibernate}</version>
+            <version>5.0.2.Final</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.hibernate</groupId>
