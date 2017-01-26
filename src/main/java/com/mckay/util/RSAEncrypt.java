@@ -42,7 +42,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  * @ClassName: RSAEncrypt
  * @Description: RSA加解密
  * @author: 周林波
- * @date: 2016年12月21日 下午2:10:26  
+ * @date: 2016年12月21日 下午2:10:26
  */
 public class RSAEncrypt {
 
@@ -71,12 +71,12 @@ public class RSAEncrypt {
                     "hSiT+dyg6STFxzmsnzjUkWMyi2OD1M0xGUrnTpPS40I=" + "\r";
 
     /**
-     * 私钥 
+     * 私钥
      */
     private RSAPrivateKey privateKey;
 
     /**
-     * 公钥 
+     * 公钥
      */
     private RSAPublicKey publicKey;
 
@@ -95,7 +95,7 @@ public class RSAEncrypt {
 
 
     /**
-     * 获取私钥 
+     * 获取私钥
      * @return 当前的私钥对象
      */
     public RSAPrivateKey getPrivateKey() {
@@ -103,7 +103,7 @@ public class RSAEncrypt {
     }
 
     /**
-     * 获取公钥 
+     * 获取公钥
      * @return 当前的公钥对象
      */
     public RSAPublicKey getPublicKey() {
@@ -111,7 +111,7 @@ public class RSAEncrypt {
     }
 
     /**
-     * 随机生成密钥对 
+     * 随机生成密钥对
      */
     public void genKeyPair() {
         KeyPairGenerator keyPairGen = null;
@@ -127,9 +127,9 @@ public class RSAEncrypt {
     }
 
     /**
-     * 从文件输入流中加载公钥 
-     * @param in 公钥输入流 
-     * @throws Exception 加载公钥时产生的异常 
+     * 从文件输入流中加载公钥
+     * @param in 公钥输入流
+     * @throws Exception 加载公钥时产生的异常
      */
     public void loadPublicKey(InputStream in) throws Exception {
         try {
@@ -154,9 +154,9 @@ public class RSAEncrypt {
 
 
     /**
-     * 从字符串中加载公钥 
-     * @param publicKeyStr 公钥数据字符串 
-     * @throws Exception 加载公钥时产生的异常 
+     * 从字符串中加载公钥
+     * @param publicKeyStr 公钥数据字符串
+     * @throws Exception 加载公钥时产生的异常
      */
     public void loadPublicKey(String publicKeyStr) throws Exception {
         try {
@@ -174,7 +174,7 @@ public class RSAEncrypt {
     }
 
     /**
-     * 从文件中加载私钥 
+     * 从文件中加载私钥
      * @param in 私钥文件名
      * @return 是否成功
      * @throws Exception
@@ -219,11 +219,11 @@ public class RSAEncrypt {
     }
 
     /**
-     * 加密过程 
-     * @param publicKey 公钥 
-     * @param plainTextData 明文数据 
+     * 加密过程
+     * @param publicKey 公钥
+     * @param plainTextData 明文数据
      * @return
-     * @throws Exception 加密过程中的异常信息 
+     * @throws Exception 加密过程中的异常信息
      */
     public byte[] encrypt(RSAPublicKey publicKey, byte[] plainTextData) throws Exception {
         if (publicKey == null) {
@@ -250,11 +250,11 @@ public class RSAEncrypt {
     }
 
     /**
-     * 解密过程 
-     * @param privateKey 私钥 
-     * @param cipherData 密文数据 
+     * 解密过程
+     * @param privateKey 私钥
+     * @param cipherData 密文数据
      * @return 明文
-     * @throws Exception 解密过程中的异常信息 
+     * @throws Exception 解密过程中的异常信息
      */
     public byte[] decrypt(RSAPrivateKey privateKey, byte[] cipherData) throws Exception {
         if (privateKey == null) {

@@ -34,7 +34,7 @@ import com.mckay.constants.XSSRexConstants;
  * @ClassName: XSSfilter
  * @Description: 跨站脚本攻击检测filter
  * @author: 周林波
- * @date: 2016年12月19日 下午11:23:39  
+ * @date: 2016年12月19日 下午11:23:39
  */
 public class XSSCheckFilter implements Filter {    // 黑名单，要求全部小写
     private static final String blackList[] = new String[]{"`", "autofocus", "alert", "javascript", "<script",
@@ -55,7 +55,7 @@ public class XSSCheckFilter implements Filter {    // 黑名单，要求全部�
             "onselect", "onselectionchange", "onselectstart", "onstart", "onstop", "onsubmit", "onunload", "marquee", "<form"};//<form,marquee
 
     /**
-     * Default constructor. 
+     * Default constructor.
      */
     public XSSCheckFilter() {
 
