@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xml>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
@@ -12,16 +11,16 @@
 		http://www.springframework.org/schema/context/spring-context-4.0.xsd"
        default-lazy-init="false">
 
-    <context:component-scan base-package="com.controller"/>
+    <context:component-scan base-package="com.mckay.controller"/>
 
-    <mvc:resources mapping="/resources/**" location="/resources/"
+    <!--处理静态资源-->
+    <mvc:resources mapping="/resource/**" location="/resources/"
                    cache-period="86400"/>
-
 
     <!-- 通用视图解析器 -->
     <bean id="viewResolverCommon"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/page"/>
+        <property name="prefix" value="/page/"/>
         <property name="suffix" value=".jsp"/><!-- 可为空，方便实现根据自己的扩展名来选择视图解释类的逻辑 -->
         <property name="viewClass">
             <value>org.springframework.web.servlet.view.InternalResourceView</value>

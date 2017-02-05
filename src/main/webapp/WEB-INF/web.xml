@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
-         xsi:xmlns="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5"
-         id="WebApp_1482284785758">
-    <display-name>WebPlatform</display-name>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+<display-name>WebPlatform</display-name>
 
-    <!--Spring 配置文件 -->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:applicationContext.xml</param-value>
-    </context-param>
 
-    <!--Spring监听器配置 -->
+    <!--Spring上下文加载监听器 -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <!--Spring 上下文配置文件，可配置多个，这里配置了一个，可以在其中import其他xml -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
 
     <!--网站编码过滤 -->
     <filter>
@@ -34,20 +32,6 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- 配置Spring Servlet分发器
-    该分发器用于解析视图，配置文件在WEB-INF下的“servlet-name”-servlet.xml中
-     -->
-    <servlet-maping>
-        <servlet-name>dispatch</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-maping>
-    <servlet>
-        <servlet-name>dispatch</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-
     <!-- 自定义filter配置 -->
     <filter>
         <filter-name>XSSCheckFilter</filter-name>
@@ -66,7 +50,29 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- 配置Spring Servlet分发器
+    该分发器用于解析视图，配置文件在WEB-INF下的“servlet-name”-servlet.xml中
+     -->
+
+    <servlet>
+        <servlet-name>dispatch</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatch</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+
+    <!--<error-page>-->
+        <!--<error-code>404</error-code>-->
+        <!--<location>/404.vm</location>-->
+    <!--</error-page>-->
+    <welcome-file-list>
+        <welcome-file>/</welcome-file>
+    </welcome-file-list>
 </web-app>
