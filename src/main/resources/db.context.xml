@@ -3,8 +3,8 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
-           http://www.springframework.org/schema/beans
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-4.0.xsd
@@ -13,7 +13,8 @@
            http://www.springframework.org/schema/tx
            http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
            http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+           http://www.springframework.org/schema/util/spring-util-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
     <!-- 数据库配置有两个步骤：
     1、配置数据源（JNDI、数据连接池方式）
     2、操作数据库（jbdc模板、与ORM框架集成sessionFactory）
@@ -46,19 +47,18 @@
         <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 -->
         <property name="acquireIncrement" value="5"/>
     </bean>
-    <bean
-            class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <value>classpath:config.properties</value>
         </property>
     </bean>
 
-    <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <!-- 注解使用的seesionFactory 里面必须引用一个数据源对象 -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <!-- 数据源 -->
         <property name="dataSource" ref="dataSource"/>
-        <!-- 自动扫描实体对象 -->
-        <property name="packagesToScan" value="com.mckay.entity.*"/>
+        <!-- 自动扫描实体对象 包名要特别注意，不要随便加*-->
+        <property name="packagesToScan" value="com.mckay.entity"/>
         <!-- hibernate相关属性配置 -->
         <property name="hibernateProperties">
             <props>
@@ -69,15 +69,40 @@
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="javax.persistence.validation.mode">none</prop>
 
+                <!-- 需要再次配置数据源,c3p0才起作用 -->
+                <prop key="hibernate.connection.provider_class">org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/mckay</prop>
+                <prop key="hibernate.connection.username">root</prop>
+                <prop key="hibernate.connection.password">zhoulinbo</prop>
             </props>
 
         </property>
     </bean>
 
+    <!--事物管理器-->
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
+    <!-- 开启通过注解@Transactional管理事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+    <!-- 事务 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="query*" read-only="true" propagation="REQUIRED" />
+            <tx:method name="find*" read-only="true" propagation="REQUIRED" />
+            <tx:method name="*" propagation="REQUIRED" />
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 配置AOP -->
+    <aop:config proxy-target-class="true">
+        <aop:pointcut expression="execution(* *..service..*Service*.*(..))" id="serviceMethod" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod" />
+    </aop:config>
 
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory"/>
