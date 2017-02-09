@@ -11,36 +11,29 @@
  */
 package com.mckay.util;
 
+
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.Assert;
+
+import javax.annotation.Resource;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.ParameterMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.Query;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.orm.hibernate5.HibernateTemplate;
-import org.springframework.util.Assert;
-
 
 /**
  * @ClassName: HibernateBaseDao
- * @Description: TODO
+ * @Description: 数据库操作基础抽象类
  * @author: 周林波
  * @date: 2016年12月30日 下午8:54:47  
  */
@@ -48,13 +41,13 @@ import org.springframework.util.Assert;
 public abstract class HibernateBaseDao<T, PK extends Serializable> {
 
 
-    private static final Logger log = Logger
-            .getLogger(HibernateBaseDao.class);
+
 
     protected Class<T> entityClass;
 
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
+    @Resource
+    private SessionFactory sessionFactory;
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -70,7 +63,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable> {
     }
 
     protected Session getSession() {
-        return hibernateTemplate.getSessionFactory().getCurrentSession();
+        return sessionFactory.getCurrentSession();
     }
 
     /**
@@ -80,7 +73,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable> {
 
         Assert.notNull(entity);
 
-        hibernateTemplate.save(entity);
+        this.getSession().save(entity);
     }
 
     /**
@@ -90,7 +83,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable> {
 
         Assert.notNull(entity);
 
-        hibernateTemplate.update(entity);
+        this.getSession().update(entity);
     }
 
     /**
@@ -100,7 +93,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable> {
 
         Assert.notNull(entity);
 
-        hibernateTemplate.saveOrUpdate(entity);
+        this.getSession().saveOrUpdate(entity);
     }
 
     /**
@@ -114,7 +107,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable> {
             return;
         }
 
-        hibernateTemplate.delete(entity);
+        this.getSession().delete(entity);
     }
 
     /**
@@ -132,7 +125,7 @@ public abstract class HibernateBaseDao<T, PK extends Serializable> {
      */
     public T get(final PK id) {
         Assert.notNull(id);
-        return (T) hibernateTemplate.get(entityClass, id);
+        return (T) this.getSession().get(entityClass, id);
     }
 
     /**
@@ -355,32 +348,32 @@ public abstract class HibernateBaseDao<T, PK extends Serializable> {
      */
     public List<Map<String, Object>> findMapBySQL(String sql, List<Object> param) {
         Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<Map<String, Object>> result = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    List<Map<String, Object>> result = null;
 
         try {
-            result = new ArrayList<Map<String, Object>>();
-            conn = jdbcTemplate.getDataSource().getConnection();
-            stmt = conn.prepareStatement(sql);
-            fillStatement(stmt, param);
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                result.add(toMap(rs));
-            }
-            return result;
-        } catch (SQLException e) {
-            log.error("", e);// :TODO 后续要引入异常框架
-        } finally {
-            try {
-                closeAll(rs, stmt, conn);
-            } catch (SQLException e) {
-                log.error("", e);// :TODO 后续要引入异常框架
-            }
+        result = new ArrayList<Map<String, Object>>();
+        conn = jdbcTemplate.getDataSource().getConnection();
+        stmt = conn.prepareStatement(sql);
+        fillStatement(stmt, param);
+        rs = stmt.executeQuery();
+        while (rs.next()) {
+            result.add(toMap(rs));
         }
+        return result;
+    } catch (SQLException e) {
+        // :TODO 后续要引入异常框架
+    } finally {
+        try {
+            closeAll(rs, stmt, conn);
+        } catch (SQLException e) {
+            // :TODO 后续要引入异常框架
+        }
+    }
 
         return new ArrayList<Map<String, Object>>();
-    }
+}
 
     private Map<String, Object> toMap(ResultSet rs) throws SQLException {
         Map<String, Object> result = new HashMap<String, Object>();
