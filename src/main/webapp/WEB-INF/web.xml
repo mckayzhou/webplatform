@@ -50,6 +50,15 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>SpringOpenSessionInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SpringOpenSessionInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!-- 配置Spring Servlet分发器
     该分发器用于解析视图，配置文件在WEB-INF下的“servlet-name”-servlet.xml中
      -->
@@ -68,10 +77,15 @@
         <session-timeout>30</session-timeout>
     </session-config>
 
-    <!--<error-page>-->
-        <!--<error-code>404</error-code>-->
-        <!--<location>/404.vm</location>-->
-    <!--</error-page>-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/</location>
+    </error-page>
     <welcome-file-list>
         <welcome-file>/</welcome-file>
     </welcome-file-list>
