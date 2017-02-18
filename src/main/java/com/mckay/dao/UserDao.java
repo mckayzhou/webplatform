@@ -14,8 +14,9 @@ package com.mckay.dao;
 import com.mckay.entity.TblUserInfEntity;
 import com.mckay.util.HibernateBaseDao;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
+import java.util.List;
 
 /**
  * @ClassName: loginDao
@@ -24,21 +25,41 @@ import java.io.Serializable;
  * @date: 2016年12月18日 下午11:23:34  
  */
 @Repository
-public class UserDao extends HibernateBaseDao<TblUserInfEntity, Serializable> {
+@Transactional
+public class UserDao extends HibernateBaseDao<TblUserInfEntity, String>  {
 
-    public boolean login(TblUserInfEntity user) {
 
+    /**
+    *@description :获取所有用户信息
+    *@param : 空
+    *@return :用户信息
+    */
+    public List<TblUserInfEntity> getAllUser(){
 
-        return true;
+        List<TblUserInfEntity> data=getAll();
+       return  data;
     }
 
-    public boolean addUser(TblUserInfEntity user) {
+    public TblUserInfEntity getUserByName(String name) {
+        TblUserInfEntity user=findUniqueByProperty("name",name);
+        return  user;
+    }
+
+    public boolean addUser(TblUserInfEntity user) throws Exception {
         saveOrUpdate(user);
         return true;
     }
 
-    public boolean editUser(TblUserInfEntity user) {
-
+    public boolean editUser(TblUserInfEntity user) throws Exception {
+        saveOrUpdate(user);
         return true;
+    }
+
+    public boolean isExistUser(String name){
+        TblUserInfEntity user=findUniqueByProperty("name",name);
+        if (user!=null){
+            return  true;
+        }
+        return false;
     }
 }
