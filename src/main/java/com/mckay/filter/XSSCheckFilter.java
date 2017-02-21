@@ -14,6 +14,7 @@ package com.mckay.filter;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.Enumeration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,24 +37,32 @@ import com.mckay.constants.XSSRexConstants;
  * @author: 周林波
  * @date: 2016年12月19日 下午11:23:39
  */
-public class XSSCheckFilter implements Filter {    // 黑名单，要求全部小写
-    private static final String blackList[] = new String[]{"`", "autofocus", "alert", "javascript", "<script",
-            "x:script", "window.location", "unescape", "execscript", "eval", "fromcharcode", "jscript", "vbscript",
-            "msgbox", "import", "prompt", "confirm", "isindex", "stylesheet", "http-equiv", "iframe", "frameset",
-            "<object", "<applet", "<embed", "<meta", "<value", "![cdata[", "with(document)", "<comment>", "<!doctype",
-            "$.get", "$.getscript", "encodeuri", "encodeuricomponent", "onabort", "onactivate", "onafterprint",
-            "onafterupdate", "onbeforeactivate", "onbeforecopy", "onbeforecut", "onbeforedeactivate",
-            "onbeforeeditfocus", "onbeforepaste", "onbeforeprint", "onbeforeunload", "onbeforeupdate", "onblur",
-            "onbounce", "oncellchange", "onchange", "onclick", "oncontextmenu", "oncontrolselect", "oncopy", "oncut",
-            "ondataavailable", "ondatasetchanged", "ondatasetcomplete", "ondblclick", "ondeactivate", "ondrag",
-            "ondragend", "ondragenter", "ondragleave", "ondragover", "ondragstart", "ondrop", "onerror",
-            "onerrorupdate", "onfilterchange", "onfinish", "onfocus", "onfocusin", "onfocusout", "onhelp", "onkeydown",
-            "onkeypress", "onkeyup", "onlayoutcomplete", "onload", "onlosecapture", "onmousedown", "onmouseenter",
-            "onmouseleave", "onmousemove", "onmouseout", "onmouseover", "onmouseup", "onmousewheel", "onmove",
-            "onmoveend", "onmovestart", "onpaste", "onpropertychange", "onreadystatechange", "onreset", "onresize",
-            "onresizeend", "onresizestart", "onrowenter", "onrowexit", "onrowsdelete", "onrowsinserted", "onscroll",
-            "onselect", "onselectionchange", "onselectstart", "onstart", "onstop", "onsubmit", "onunload", "marquee", "<form"};//<form,marquee
-
+public class XSSCheckFilter implements Filter {  // 黑名单，要求全部小写
+    // 可疑关键字、函数、标签、事件,函数加左括号，标签加左尖括号，事件加等号。
+    private static final String blackList[] = new String[] {
+            // 可疑关键字
+            "`", "javascript", "@import", "x:script", "window.location", "jscript", "vbscript",
+            "http-equiv", "![cdata[", "with(document)",
+            // 可疑标签
+            "<iframe", "<frameset", "<marquee", "<form", "<object", "<applet", "<embed", "<meta", "<value",
+            "<comment>", "<!doctype", "<script",
+            // 可疑函数
+            "$.get(", "$.getscript(", "alert(", "unescape(", "execscript(", "eval(", "prompt(", "msgbox(",
+            "fromcharcode(", "encodeuri(", "encodeuricomponent(", "confirm(",
+            // 可疑事件
+            "autofocus=", "onabort=", "onactivate=", "onafterprint=", "onafterupdate=",
+            "onbeforeactivate=", "onbeforecopy=", "onbeforecut=", "onbeforedeactivate=", "onbeforeeditfocus=",
+            "onbeforepaste=", "onbeforeprint=", "onbeforeunload=", "onbeforeupdate=", "onblur=", "onbounce=",
+            "oncellchange=", "onchange=", "onclick=", "oncontextmenu=", "oncontrolselect=", "oncopy=", "oncut=",
+            "ondataavailable=", "ondatasetchanged=", "ondatasetcomplete=", "ondblclick=", "ondeactivate=", "ondrag=",
+            "ondragend=", "ondragenter=", "ondragleave=", "ondragover=", "ondragstart=", "ondrop=", "onerror=",
+            "onerrorupdate=", "onfilterchange=", "onfinish=", "onfocus=", "onfocusin=", "onfocusout=", "onhelp=",
+            "onkeydown=", "onkeypress=", "onkeyup=", "onlayoutcomplete=", "onload=", "onlosecapture=", "onmousedown=",
+            "onmouseenter=", "onmouseleave=", "onmousemove=", "onmouseout=", "onmouseover=", "onmouseup=",
+            "onmousewheel=", "onmove=", "onmoveend=", "onmovestart=", "onpaste=", "onpropertychange=",
+            "onreadystatechange=", "onreset=", "onresize=", "onresizeend=", "onresizestart=", "onrowenter=",
+            "onrowexit=", "onrowsdelete=", "onrowsinserted=", "onscroll=", "onselect=", "onselectionchange=",
+            "onselectstart=", "onstart=", "onstop=", "onsubmit=", "onunload=" };
     /**
      * Default constructor.
      */
@@ -71,18 +80,28 @@ public class XSSCheckFilter implements Filter {    // 黑名单，要求全部�
     /**
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         request.setCharacterEncoding("UTF-8");
 
-        String payload = request.getParameter("payload");
-        if (!isXssSafe("payload", payload)) {
-            System.out.println("may xss:" + payload);
-            httpResponse.sendRedirect("error.jsp");
-        } else {
-            // pass the request along the filter chain
-            chain.doFilter(request, response);
+        Enumeration<?> enu = request.getParameterNames();
+        // 遍历参数
+        while (enu.hasMoreElements()) {
+            String name = (String) enu.nextElement();
+            String[] values = request.getParameterValues(name);
+            if (values != null) {
+                for (String value : values) {
+                    System.out.println("value:" + value);
+                    if (!isXssSafe(value)) {
+                        httpResponse.sendRedirect("error.jsp");
+                        return;
+                    }
+                }
+
+            }
         }
+        chain.doFilter(request, response);
     }
 
     /**
@@ -94,28 +113,31 @@ public class XSSCheckFilter implements Filter {    // 黑名单，要求全部�
 
     /**
      * 根据输入key和value判断value是否为xss payload
-     * 目前的实现没有用到key值，若需要根据key来特殊化规则，可以传入key值并在filter方法中添加个性化实现
+     * 目前的实现没有用到key值，若需要根据key来特殊化规则，可以传入key值并在filter方法中添加个性化实现 isXssSafe(String
+     * key, String value)
      *
-     * @param key    http请求参数中的key
-     * @param value http请求参数中的value
+     * @param key
+     *            http请求参数中的key
+     * @param value
+     *            http请求参数中的value
      * @return 若判断value为xss payload，则返回false，否则返回true
      *
      */
     /**
-     * @param key
+     * @param value
      * @param value
      * @return
      */
-    public static boolean isXssSafe(String key, String value) {
+    public static boolean isXssSafe(String value) {
         if (StringUtils.isEmpty(value)) {
             return true;
         }
-        /****长度限制****/
+        /**** 长度限制 ****/
         // 若可能，请根据key来限制value的输入长度
-        /****格式校验****/
+        /**** 格式校验 ****/
         // 若可能，请根据key对value做格式校验
 
-        /****规范化****/
+        /**** 规范化 ****/
         /**
          * 全角转半角
          *
@@ -129,7 +151,7 @@ public class XSSCheckFilter implements Filter {    // 黑名单，要求全部�
         // 转换为小写
         value = value.toLowerCase();
 
-        /****Payload特征，假设正常报文不会出现****/
+        /**** Payload特征，假设正常报文不会出现 ****/
         // 注释
         if (value.matches(XSSRexConstants.REX_COMMENT)) {
             return false;
@@ -145,7 +167,7 @@ public class XSSCheckFilter implements Filter {    // 黑名单，要求全部�
             return false;
         }
 
-        /****编码特征，假设正常报文不会出现****/
+        /**** 编码特征，假设正常报文不会出现 ****/
         // 十进制编码
         if (getCountByRex(value, "&?#\\d{1,7};?", true) > 0) {
             return false;
@@ -181,19 +203,19 @@ public class XSSCheckFilter implements Filter {    // 黑名单，要求全部�
         }
 
         // jjencode
-        if (getCountByRex(value, "\\[.*?\\]", false) > 5/*magic number*/) {//使用非贪心的正则匹配[]、[code]
+        if (getCountByRex(value, "\\[.*?\\]", false) > 5/* magic number */) {// 使用非贪心的正则匹配[]、[code]
             return false;
         }
 
-        /****净化****/
+        /**** 净化 ****/
         // 移除特殊字符
-        value = value.replaceAll("/", "");        // 移除'/'
-        value = value.replaceAll("\\\\", "");    // 移除'\'
-        value = value.replaceAll("\\+", "");    // 移除'+'
-        value = value.replaceAll("\'", "");        // 移除'''
-        value = value.replaceAll("\"", "");        // 移除'"'
+        value = value.replaceAll("/", ""); // 移除'/'
+        value = value.replaceAll("\\\\", ""); // 移除'\'
+        value = value.replaceAll("\\+", ""); // 移除'+'
+        value = value.replaceAll("\'", ""); // 移除'''
+        value = value.replaceAll("\"", ""); // 移除'"'
 
-        /****关键字过滤****/
+        /**** 关键字过滤 ****/
         // 黑名单过滤
         for (String keyword : blackList) {
             if (value.contains(keyword)) {
@@ -236,7 +258,6 @@ public class XSSCheckFilter implements Filter {    // 黑名单，要求全部�
             return false;
         }
 
-
         return true;
     }
 
@@ -245,7 +266,8 @@ public class XSSCheckFilter implements Filter {    // 黑名单，要求全部�
      *
      * @param str
      * @param pattern
-     * @param stopFast 若为true，则匹配到1次就返回，此时@return返回1
+     * @param stopFast
+     *            若为true，则匹配到1次就返回，此时@return返回1
      * @return
      */
     private static int getCountByRex(String str, String pattern, boolean stopFast) {
@@ -262,7 +284,8 @@ public class XSSCheckFilter implements Filter {    // 黑名单，要求全部�
     }
 
     private static String toSingleLine(String value) {
-        Pattern pattern = Pattern.compile("\\s"); //匹配任何空白字符，包括空格、制表符、换页符等。与 [ \f\n\r\t\v] 等效。
+        Pattern pattern = Pattern.compile("\\s"); // 匹配任何空白字符，包括空格、制表符、换页符等。与 [
+        // \f\n\r\t\v] 等效。
         Matcher matcher = pattern.matcher(value);
         value = matcher.replaceAll("");
         return value;
