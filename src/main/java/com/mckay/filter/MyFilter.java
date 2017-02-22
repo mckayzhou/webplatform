@@ -11,6 +11,9 @@
  */
 package com.mckay.filter;
 
+import com.mckay.constants.UserConstants;
+import com.mckay.entity.TblUserInfEntity;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -25,32 +28,15 @@ import javax.servlet.http.HttpSession;
 
 /**
  * @ClassName: Myfilter
- * @Description: TODO
+ * @Description: 自定义过滤类
  * @author: Administrator
  * @date: 2016年12月19日 下午10:00:49  
  */
 public class MyFilter implements Filter {
 
-    /* (non Javadoc)
-     * @Title: destroy
-     * @Description: TODO
-     * @see javax.servlet.Filter#destroy()
-     */
-    public void destroy() {
-        // TODO Auto-generated method stub
 
-    }
+    private static final String[] INGNORE_URI={"login","resources/"};
 
-    /* (non Javadoc)
-     * @Title: doFilter
-     * @Description: TODO
-     * @param arg0
-     * @param arg1
-     * @param arg2
-     * @throws IOException
-     * @throws ServletException
-     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
-     */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
             throws IOException, ServletException {
 
@@ -60,23 +46,33 @@ public class MyFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
+        if(checkURI(req)){
+            fc.doFilter(request,response);
+            return;
+        }
         HttpSession session = req.getSession();
+        TblUserInfEntity user=(TblUserInfEntity) session.getAttribute(UserConstants.LOGIN_USER_INFO);
+        if (user==null){
+            String contextName=req.getContextPath();
+            resp.sendRedirect(contextName+"/user/login");
+            return;
+        }
 
 
         fc.doFilter(request, response);
-
-
     }
 
-    /* (non Javadoc)
-     * @Title: init
-     * @Description: TODO
-     * @param arg0
-     * @throws ServletException
-     * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-     */
-    public void init(FilterConfig arg0) throws ServletException {
-        // TODO Auto-generated method stub
-
+    public boolean checkURI(HttpServletRequest request){
+        String requestURI=request.getRequestURI();
+        for (String uri:INGNORE_URI){
+            if (requestURI.toLowerCase().contains(uri.toLowerCase())){
+                return  true;
+            }
+        }
+        return  false;
     }
+
+    public void destroy() {}
+
+    public void init(FilterConfig arg0) throws ServletException {}
 }
