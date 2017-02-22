@@ -8,6 +8,10 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
     <!--Spring 上下文配置文件，可配置多个，这里配置了一个，可以在其中import其他xml -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -73,18 +77,19 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
 
     <error-page>
         <error-code>404</error-code>
-        <location>/</location>
+        <location>/404</location>
     </error-page>
 
     <error-page>
         <error-code>500</error-code>
-        <location>/</location>
+        <location>/500</location>
     </error-page>
     <welcome-file-list>
         <welcome-file>/</welcome-file>

@@ -14,19 +14,21 @@
     <context:component-scan base-package="com.mckay.controller"/>
 
     <!--处理静态资源-->
-    <mvc:resources mapping="/resource/**" location="/resources/"
+    <mvc:resources mapping="/resources/**" location="/resources/"
                    cache-period="86400"/>
 
+    <mvc:annotation-driven ignore-default-model-on-redirect="true" />
+
     <!-- 通用视图解析器 -->
-    <bean id="viewResolverCommon"
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/page/"/>
-        <property name="suffix" value=".jsp"/><!-- 可为空，方便实现根据自己的扩展名来选择视图解释类的逻辑 -->
-        <property name="viewClass">
-            <value>org.springframework.web.servlet.view.InternalResourceView</value>
-        </property>
-        <property name="order" value="1"/>
-    </bean>
+    <!--<bean id="viewResolverCommon"-->
+          <!--class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="prefix" value="/page/"/>-->
+        <!--<property name="suffix" value=".jsp"/>&lt;!&ndash; 可为空，方便实现根据自己的扩展名来选择视图解释类的逻辑 &ndash;&gt;-->
+        <!--<property name="viewClass">-->
+            <!--<value>org.springframework.web.servlet.view.InternalResourceView</value>-->
+        <!--</property>-->
+        <!--<property name="order" value="1"/>-->
+    <!--</bean>-->
 
     <!-- 配置velocity视图解析器 -->
     <bean id="velocityConfigurer"
