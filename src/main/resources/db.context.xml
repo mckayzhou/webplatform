@@ -13,7 +13,8 @@
            http://www.springframework.org/schema/tx
            http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
            http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+           http://www.springframework.org/schema/util/spring-util-4.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 数据库配置有两个步骤：
     1、配置数据源（JNDI、数据连接池方式）
@@ -26,12 +27,50 @@
        </property>
    </bean> -->
 
+    <!--配置数据源Druid-->
+    <bean id="DruidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+        <property name="maxActive" value="${druid.maxActive}"/>
+
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}"/>
+
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}"/>
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}"/>
+
+        <property name="validationQuery" value="${druid.validationQuery}"/>
+        <property name="testWhileIdle" value="${druid.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${druid.testOnBorrow}"/>
+        <property name="testOnReturn" value="${druid.testOnReturn}"/>
+
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小（Oracle使用）
+        <property name="poolPreparedStatements" value="true" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20" /> -->
+
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="${druid.filters}"/>
+
+
+    </bean>
+    <!-- 载入常用的配置 -->
+    <context:property-placeholder location="classpath:config.properties,classpath:druid.properties"/>
+
     <!-- 配置数据源 c3p0 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
         <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/mckay"/>
-        <property name="user" value="root"/>
+        <property name="user" value="${jdbc.username}"/>
         <property name="password" value="zhoulinbo"/>
 
         <!-- 请求超时时间 -->
@@ -47,16 +86,12 @@
         <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 -->
         <property name="acquireIncrement" value="5"/>
     </bean>
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <value>classpath:config.properties</value>
-        </property>
-    </bean>
+
 
     <!-- 注解使用的seesionFactory 里面必须引用一个数据源对象 -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <!-- 数据源 -->
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="DruidDataSource"/>
         <!-- 自动扫描实体对象 包名要特别注意，不要随便加*-->
         <property name="packagesToScan" value="com.mckay.entity"/>
         <!-- hibernate相关属性配置 -->
@@ -109,7 +144,7 @@
     </bean>
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="DruidDataSource"/>
     </bean>
 
 </beans>
