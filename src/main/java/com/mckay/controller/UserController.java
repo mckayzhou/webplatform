@@ -13,15 +13,21 @@ package com.mckay.controller;
 
 import com.mckay.constants.UserConstants;
 import com.mckay.entity.TblUserInfEntity;
+import com.mckay.model.Data;
 import com.mckay.service.UserService;
+import com.mckay.util.MD5;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * @ClassName: loginController
@@ -30,12 +36,13 @@ import javax.servlet.http.HttpSession;
  * @date: 2016年12月19日 下午10:07:09  
  */
 @Controller
-@RequestMapping(value = "user/")
+@RequestMapping(value = "")
 public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
 
+    private Logger log=Logger.getLogger(UserController.class);
 
     @RequestMapping(value = "login")
     public String  login(HttpServletRequest request, HttpServletResponse response) {
@@ -43,17 +50,26 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "login.do")
-    public String loginCheck(HttpServletRequest request,HttpServletResponse response,
+    public void loginCheck(HttpServletRequest request,HttpServletResponse response,
                               @RequestParam(value = "name") String name,@RequestParam(value = "password") String password){
         TblUserInfEntity user=userService.getUserByName(name);
+        String pwd;
+        try {
+            pwd=MD5.MD5(password);
+        }catch (Exception e){
+            return;
+        }
         if(user==null){
-            return UserConstants.USER_NOT_REGISTER;
-        }else if (user.getPassword().equals(password)){
+            log.debug("user is null");
+            writeResponseStr(UserConstants.USER_NOT_REGISTER,response);
+        }else if (MD5.validPassword(password,pwd)){
             HttpSession session=request.getSession();
             session.setAttribute(UserConstants.LOGIN_USER_INFO,user);
-            return UserConstants.LOGIN_SUCCESS;
+            log.info("user login in success");
+            writeResponse(UserConstants.LOGIN_SUCCESS ,response);
         }else {
-            return UserConstants.LOGIN_FAILURE;
+            log.debug("login failure");
+            writeResponse(UserConstants.LOGIN_FAILURE ,response);
         }
     }
 
@@ -63,6 +79,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "register.do")
+    @ResponseBody
     public String addUser(HttpServletRequest request,HttpServletResponse response,TblUserInfEntity user){
 
         String name=user.getName();
@@ -70,6 +87,10 @@ public class UserController extends BaseController {
         if (isExist){
             return UserConstants.USER_EXIST;
         }else {
+            user.setStatus("0");
+            user.setPassword(MD5.MD5(user.getPassword()));
+            user.setRecCrtTs(new Timestamp((new Date()).getTime()));
+            user.setRecUpdTs(null);
             boolean addStatus=userService.addUser(user);
             if (addStatus){
                 return UserConstants.REGISTER_SUCCESS;
@@ -82,11 +103,18 @@ public class UserController extends BaseController {
     public String editView(HttpServletRequest request,HttpServletResponse response){
         return "user/edit";
     }
+
     @RequestMapping(value = "edit.do")
+    @ResponseBody
     public String editUser(HttpServletRequest request, HttpServletResponse response,TblUserInfEntity user){
         String name=user.getName();
         boolean isExist=userService.isExistUser(name);
         if (isExist){
+            try {
+                user.setPassword(MD5.MD5(user.getPassword()));
+            }catch (Exception e){
+                return UserConstants.EDIT_FAILURE;
+            }
             boolean editStatus=userService.editUser(user);
             if (editStatus){
                 return UserConstants.EDIT_SUCCESS;

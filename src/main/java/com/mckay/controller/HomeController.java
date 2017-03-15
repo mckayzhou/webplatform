@@ -32,7 +32,16 @@ public class HomeController extends  BaseController {
 
     @RequestMapping(value ={"/","/home"})
     public String welcome(HttpServletRequest request, HttpServletResponse response,Model model){
-
         return "index";
+    }
+
+    @RequestMapping(value = {"404"})
+    public String error(HttpServletRequest request, HttpServletResponse response,Model model){
+        return "404";
+    }
+
+    @RequestMapping(value = {"500"})
+    public String fail(HttpServletRequest request, HttpServletResponse response,Model model){
+        return "500";
     }
 }
