@@ -5,4 +5,9 @@ target
 .classpath
 webplatform.iml
 .idea/workspace.xml
+src/main/webapp/vm/bookInfo/
+src/main/webapp/vm/bookshelf/
+src/main/webapp/vm/bookType/
+src/main/webapp/vm/borrowInfo/
+
 
