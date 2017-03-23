@@ -17,7 +17,6 @@ import java.util.Random;
  *@Author: 周林波
  *@Date :Created in 2017/1/21  18:04
  */
-@Component
 public class RedPacketService {
 
     private double total;

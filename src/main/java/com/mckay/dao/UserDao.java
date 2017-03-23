@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * @ClassName: loginDao
- * @Description: TODO
+ * @Description: 用户Dao层
  * @author: Administrator
  * @date: 2016年12月18日 下午11:23:34  
  */
@@ -46,12 +46,12 @@ public class UserDao extends HibernateBaseDao<TblUserInfEntity, String>  {
     }
 
     public boolean addUser(TblUserInfEntity user) throws Exception {
-        saveOrUpdate(user);
+        save(user);
         return true;
     }
 
     public boolean editUser(TblUserInfEntity user) throws Exception {
-        saveOrUpdate(user);
+        modify(user);
         return true;
     }
 

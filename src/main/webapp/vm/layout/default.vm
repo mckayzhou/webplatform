@@ -1,19 +1,37 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-    <title></title>
-	<script src="${rc.contextPath}/resources/js/jquery.min.js"></script>
-	<script src="http://upchat.95516.net/public/scripts/app.upchat.js" ></script>
-	<script type="text/javascript">
-		var webRoot="$!{rc.contextPath}/";
-	</script>
-    
-</head>
-<body>
-$screen_content
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="renderer" content="webkit" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+		<!-- Page Action -->
+		<meta http-equiv="Page-Enter" content="revealTrans(duration=1.0,transtion=6)">
+		<meta http-equiv="Page-Exit" content="revealTrans(duration=1.0,transtion=6)">
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="format-detection" content="telephone=no" />
+		
+		<!-- 缓存 -->
+		<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" type="text/css" href="${rc.contextPath}/resources/css/bootstrap.min.css">
 
-</body>
+
+		<title>	#if($!{pageTitle}) $!{pageTitle} #else webplatform #end </title>
+		<script type="text/javascript">
+			var webRoot = '${rc.contextPath}/';
+		</script>
+	</head>
+	<body #if($!footer) class="fix-body-bottom $!footerType" #end>
+		<div >
+			$screen_content
+		</div>
+
+	</body>
+    <!-- jQuery & Bootstrap JS -->
+    <script type="text/javascript" src="${rc.contextPath}/resources/js/jquery.min.js"></script>
+	<script type="text/javascript" src="${rc.contextPath}/resources/js/bootstrap.min.js"></script>
+
 </html>
-

@@ -9,19 +9,21 @@ package com.mckay.multiThread;
 
 import com.mckay.service.RedPacketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *@Description :模拟高并发抢红包的场景
  *@Author: 周林波
  *@Date :Created in 2017/1/21  18:03
  */
+@Service
 public class ConcurrentSimulate implements  Runnable{
 
-    @Autowired
-    private RedPacketService redPacketService;
+//    @Autowired
+//    private RedPacketService redPacketService;
     @Override
     public void run() {
-        int money=redPacketService.getRedPacket();
-        System.out.println("<<<<<<<<<you have get "+money+">>>>>>>>>>>>");
+        //int money=redPacketService.getRedPacket();
+        //System.out.println("<<<<<<<<<you have get "+money+">>>>>>>>>>>>");
     }
 }

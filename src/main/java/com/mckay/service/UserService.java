@@ -25,8 +25,6 @@ public class UserService {
 
     public boolean addUser(TblUserInfEntity userInfo) {
         try {
-            String passwd = MD5.getMD5(userInfo.getPassword());
-            userInfo.setPassword(passwd);
             userDao.addUser(userInfo);
             return true;
         } catch (Exception e) {

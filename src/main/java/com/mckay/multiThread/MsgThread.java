@@ -12,4 +12,5 @@ package com.mckay.multiThread;
  * @Date Created in 2017/1/21  11:33
  */
 public class MsgThread {
+
 }

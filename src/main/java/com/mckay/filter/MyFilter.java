@@ -35,7 +35,7 @@ import javax.servlet.http.HttpSession;
 public class MyFilter implements Filter {
 
 
-    private static final String[] INGNORE_URI={"login","resources/"};
+    private static final String[] INGNORE_URI={"login","resources/","register"};
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
             throws IOException, ServletException {
@@ -54,7 +54,7 @@ public class MyFilter implements Filter {
         TblUserInfEntity user=(TblUserInfEntity) session.getAttribute(UserConstants.LOGIN_USER_INFO);
         if (user==null){
             String contextName=req.getContextPath();
-            resp.sendRedirect(contextName+"/user/login");
+            resp.sendRedirect(contextName+"/login");
             return;
         }
 

@@ -7,14 +7,21 @@
  */
 package com.mckay.multiThread;
 
+import java.io.OutputStream;
+
 /**
  * @Description:TODO
  * @Date Created in 2017/1/21  11:34
  */
 public class BigFileThread implements Runnable {
 
-    public BigFileThread() {
-
+    private int start ;
+    private int end;
+    private OutputStream out;
+    public BigFileThread(int start , int end , OutputStream out) {
+        this.start=start;
+        this.end=end;
+        this.out=out;
     }
 
     @Override

@@ -1,3 +1,12 @@
-<div name="404Page" >
-hello
+<div name="404Page" class="m_product_wrap">
+	<div class="error_404">
+    	<div class="info_404">
+        	<div class="info_picc"><img src="$!{rc.contextPath}/resources/images/sorry.png" width="379" height="39"/></div>
+            <div class="info404_title">您请求的资源不存在！</div>
+            <div class="info404_back">
+            	<a href="javascript:history.go(-1);">后退&gt;&gt;</a>
+                <a href="$!{rc.contextPath}/index">返回首页&gt;&gt;</a>
+            </div>
+        </div>
+    </div>
 </div>
